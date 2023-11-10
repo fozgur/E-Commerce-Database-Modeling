@@ -10,8 +10,8 @@ This repository contains the design documentation for an E-Commerce database mod
 **SHIPPING:** Contains details about the shipping process for orders. </br>
 **MERCHANT:** Represents the merchants or vendors providing products on the platform. </br>
 **CAMPAIGN:** Stores information about marketing campaigns. </br>
-**COMMENT: **Contains comments or reviews made by customers on products. </br>
-**ADDRESS: **Represents physical addresses, which can be associated with customers, merchants, or orders. </br>
+**COMMENT:** Contains comments or reviews made by customers on products. </br>
+**ADDRESS:** Represents physical addresses, which can be associated with customers, merchants, or orders. </br>
 **CREDITCARD:** Stores credit card information for payment processing. </br>
 **ORDERPRODUCT:** Solving the many to many relation between order and product entities, this associative entity was created.
 
