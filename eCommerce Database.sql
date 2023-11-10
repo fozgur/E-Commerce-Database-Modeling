@@ -1,28 +1,28 @@
-REATE TABLE Address1 (AddressID integer PRIMARY KEY,
+CREATE TABLE Address (AddressID integer PRIMARY KEY,
 					  City varchar(40),
 					  District varchar(40),
 					  Street varchar(40),
 					  Apartment integer,
 					  NO integer)
 					  
-CREATE TABLE Customer11 (CustomerID integer PRIMARY KEY,
+CREATE TABLE Customer (CustomerID integer PRIMARY KEY,
 						 FirstName varchar(40),
 						 LastName varchar(40),
 						 Email varchar(150),
 						 Phone varchar(10) CONSTRAINT first_cant_zero CHECK (substr(Phone,1,1) <> '0'),
-						 AddressID integer REFERENCES Address1 (AddressID))
+						 AddressID integer REFERENCES Address (AddressID))
 						 
 CREATE TABLE Product (SKU integer PRIMARY KEY,
 					  Description varchar(150),
 					  StockAmount int CONSTRAINT positive_stock CHECK (StockAmount>0))
 
 CREATE TABLE COMMENTS (CommentID integer PRIMARY KEY,
-					  CustomerID integer REFERENCES Customer11 (CustomerID),
+					  CustomerID integer REFERENCES Customer (CustomerID),
 					  ProducID integer REFERENCES Product (SKU),
 					  Rating integer CONSTRAINT rating_range CHECK (Rating BETWEEN 0 AND 5))
 					
 CREATE TABLE CreditCard (CardID integer PRIMARY KEY,
-						 CustomerID integer REFERENCES Customer11(CustomerID),
+						 CustomerID integer REFERENCES Customer(CustomerID),
 						 CardNo varchar2(16) CONSTRAINT credit_card_length CHECK (LENGTH(CardNo)=16),
 						 ExpiryMMYY varchar2(5) CONSTRAINT month_eligibility CHECK (substr(expiryMMYY,1,2)<=31)
 						 						CONSTRAINT year_eligibility CHECK (substr(expiryMMYY,4,2)<=99),
@@ -41,38 +41,38 @@ CREATE TABLE Shipping (TrackingID integer PRIMARY KEY,
 					   )
 					   
 CREATE TABLE Merchant (MerchantID integer PRIMARY KEY,
-					   AddressID integer REFERENCES Address1 (AddressID),
+					   AddressID integer REFERENCES Address (AddressID),
 					   Name varchar2(150),
 					   Rating integer CONSTRAINT rating_cant_logic CHECK (Rating BETWEEN 0 AND 5))
 
-CREATE TABLE ORDERHW4 (OrderID integer PRIMARY KEY,
-					   CustomerID integer REFERENCES customer11 (CustomerID),
+CREATE TABLE Order (OrderID integer PRIMARY KEY,
+					   CustomerID integer REFERENCES Customer (CustomerID),
 					   ShippingID integer REFERENCES Shipping (TrackingID),
 					   PaymentID integer REFERENCES Payment (PaymentID),
 					   MerchantID integer REFERENCES Merchant (MerchantID),
 					   CampaignID integer REFERENCES Campaign (CampaignID))
 					   
 CREATE TABLE OrderDetails (ProductID integer REFERENCES Product(SKU),
-						   OrderID integer REFERENCES OrderHW4 (OrderID),
+						   OrderID integer REFERENCES Order (OrderID),
 						   Price integer CONSTRAINT must_be_positive CHECK (Price>0),
 						   Quantity integer CONSTRAINT must_be_positive_quantity CHECK (Quantity>0))
 						   
 
 INSERT ALL
-  INTO Address1 (AddressID, City, District, Street, Apartment, NO) VALUES (1, 'İstanbul', 'Kadıköy', 'Bağdat Caddesi', 4, 15)
-  INTO Address1 (AddressID, City, District, Street, Apartment, NO) VALUES (2, 'Ankara', 'Çankaya', 'Atatürk Bulvarı', 7, 23)
-  INTO Address1 (AddressID, City, District, Street, Apartment, NO) VALUES (3, 'İzmir', 'Karşıyaka', 'Mithatpaşa Caddesi', 2, 11)
-  INTO Address1 (AddressID, City, District, Street, Apartment, NO) VALUES (4, 'Bursa', 'Osmangazi', 'İnönü Caddesi', 6, 45)
-  INTO Address1 (AddressID, City, District, Street, Apartment, NO) VALUES (5, 'Adana', 'Seyhan', 'Atatürk Caddesi', 3, 19)
+  INTO Address (AddressID, City, District, Street, Apartment, NO) VALUES (1, 'İstanbul', 'Kadıköy', 'Bağdat Caddesi', 4, 15)
+  INTO Address (AddressID, City, District, Street, Apartment, NO) VALUES (2, 'Ankara', 'Çankaya', 'Atatürk Bulvarı', 7, 23)
+  INTO Address (AddressID, City, District, Street, Apartment, NO) VALUES (3, 'İzmir', 'Karşıyaka', 'Mithatpaşa Caddesi', 2, 11)
+  INTO Address (AddressID, City, District, Street, Apartment, NO) VALUES (4, 'Bursa', 'Osmangazi', 'İnönü Caddesi', 6, 45)
+  INTO Address (AddressID, City, District, Street, Apartment, NO) VALUES (5, 'Adana', 'Seyhan', 'Atatürk Caddesi', 3, 19)
 SELECT * FROM dual;
 
 
 INSERT ALL
-  INTO Customer11 (CustomerID, FirstName, LastName, Email, Phone, AddressID) VALUES (1, 'Ahmet', 'Yılmaz', 'ahmet@example.com', '5311234567', 1)
-  INTO Customer11 (CustomerID, FirstName, LastName, Email, Phone, AddressID) VALUES (2, 'Ayşe', 'Kara', 'ayse@example.com', '5429876543', 2)
-  INTO Customer11 (CustomerID, FirstName, LastName, Email, Phone, AddressID) VALUES (3, 'Mehmet', 'Demir', 'mehmet@example.com', '5058765432', 3)
-  INTO Customer11 (CustomerID, FirstName, LastName, Email, Phone, AddressID) VALUES (4, 'Fatma', 'Bakır', 'fatma@example.com', '5377654321', 4)
-  INTO Customer11 (CustomerID, FirstName, LastName, Email, Phone, AddressID) VALUES (5, 'Emre', 'Yıldız', 'emre@example.com', '5556543210', 5)
+  INTO Customer (CustomerID, FirstName, LastName, Email, Phone, AddressID) VALUES (1, 'Ahmet', 'Yılmaz', 'ahmet@example.com', '5311234567', 1)
+  INTO Customer (CustomerID, FirstName, LastName, Email, Phone, AddressID) VALUES (2, 'Ayşe', 'Kara', 'ayse@example.com', '5429876543', 2)
+  INTO Customer (CustomerID, FirstName, LastName, Email, Phone, AddressID) VALUES (3, 'Mehmet', 'Demir', 'mehmet@example.com', '5058765432', 3)
+  INTO Customer (CustomerID, FirstName, LastName, Email, Phone, AddressID) VALUES (4, 'Fatma', 'Bakır', 'fatma@example.com', '5377654321', 4)
+  INTO Customer (CustomerID, FirstName, LastName, Email, Phone, AddressID) VALUES (5, 'Emre', 'Yıldız', 'emre@example.com', '5556543210', 5)
 SELECT * FROM dual;
 
 
@@ -139,11 +139,11 @@ SELECT * FROM dual;
 
 
 INSERT ALL
-  INTO ORDERHW4 (OrderID, CustomerID, ShippingID, PaymentID, MerchantID, CampaignID) VALUES (1, 1, 1, 1, 1, 1)
-  INTO ORDERHW4 (OrderID, CustomerID, ShippingID, PaymentID, MerchantID, CampaignID) VALUES (2, 2, 2, 2, 2, 2)
-  INTO ORDERHW4 (OrderID, CustomerID, ShippingID, PaymentID, MerchantID, CampaignID) VALUES (3, 3, 3, 3, 3, 3)
-  INTO ORDERHW4 (OrderID, CustomerID, ShippingID, PaymentID, MerchantID, CampaignID) VALUES (4, 4, 4, 4, 4, 4)
-  INTO ORDERHW4 (OrderID, CustomerID, ShippingID, PaymentID, MerchantID, CampaignID) VALUES (5, 5, 5, 5, 5, 5)
+  INTO Order (OrderID, CustomerID, ShippingID, PaymentID, MerchantID, CampaignID) VALUES (1, 1, 1, 1, 1, 1)
+  INTO Order (OrderID, CustomerID, ShippingID, PaymentID, MerchantID, CampaignID) VALUES (2, 2, 2, 2, 2, 2)
+  INTO Order (OrderID, CustomerID, ShippingID, PaymentID, MerchantID, CampaignID) VALUES (3, 3, 3, 3, 3, 3)
+  INTO Order (OrderID, CustomerID, ShippingID, PaymentID, MerchantID, CampaignID) VALUES (4, 4, 4, 4, 4, 4)
+  INTO Order (OrderID, CustomerID, ShippingID, PaymentID, MerchantID, CampaignID) VALUES (5, 5, 5, 5, 5, 5)
 SELECT * FROM dual;
 
 
